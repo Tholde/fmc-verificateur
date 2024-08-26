@@ -5,4 +5,4 @@ from django.shortcuts import render
 def index(request):
     # from django.http import JsonResponse
     # return JsonResponse({"message": "Hello World"})
-    return render(request, 'home/index.html')
+    return render(request, 'index.html')

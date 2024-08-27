@@ -20,5 +20,5 @@ def team(request):
     return render(request, 'team.html')
 
 
-def why(request):
-    return render(request, 'why.html')
+def login(request):
+    return render(request, 'auth/auth-login.html')

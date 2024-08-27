@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" class="light scroll-smooth group" data-layout="vertical" data-topbar="light" data-sidebar="dark"
+      data-sidebar-size="lg" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>FMC </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'icon.png' %}">
+    <!-- Layout config Js -->
+    <script src="{% static 'js/pages/layout.js' %}"></script>
+    <!-- Icons CSS -->
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="{% static 'css/tailwind2.css' %}">
+</head>
+<body>
+{% block content %}
+
+{% endblock content %}
+<!-- </div> -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/metismenujs/metismenujs.min.js' %}"></script>
+<script src="{% static 'libs/@popperjs/core/umd/popper.min.js' %}"></script>
+<script src="{% static 'js/pages/plugins.js' %}"></script>
+<script src="{% static 'js/pages/nav&tabs.js' %}"></script>
+<!-- App js -->
+<script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

@@ -5,5 +5,5 @@ urlpatterns = [
     path('about/', about, name='about'),
     path('service/', service, name='service'),
     path('team/', team, name='team'),
-    path('why/', why, name='why')
+    path('login/', login, name='login'),
 ]

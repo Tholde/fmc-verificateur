@@ -6,4 +6,6 @@ urlpatterns = [
     path('service/', service, name='service'),
     path('team/', team, name='team'),
     path('login/', login, name='login'),
+    path('registration/', register_page, name='register'),
+    path('save/', save_user, name='save'),
 ]

@@ -12,15 +12,18 @@
                                 <div class="ltr:pl-6 rtl:pr-6 py-6 text-white-500">
                                     <h4 class="text-16 font-bold" style="color: aliceblue">Bienvenu dans la page de
                                         Connexion !</h4>
-                                    <p class="font-normal text-13 mt-1 text-white">Veillez completer tous les formes.</p>
+                                    <p class="font-normal text-13 mt-1 text-white">Veillez completer tous les
+                                        formes.</p>
                                 </div>
                                 <img class="max-w-[200px]" src="{% static 'images/profile-img.png' %}" alt="">
                             </div>
                         </div>
                         <div class="w-[72px] h-[72px] rounded-full flex justify-center items-center p-3 ltr:ml-6 rtl:mr-6 bg-gray-300 dark:bg-[#32394e] -mt-8">
                             <a href="{% url 'index' %}">
-                                <img src="{% static 'images/adventist-symbol--bluejay.png' %}" class="h-50 dark:hidden" alt="">
-                                <img src="{% static 'images/adventist-symbol--bluejay.png' %}" class="h-50 hidden dark:block" alt="">
+                                <img src="{% static 'images/adventist-symbol--bluejay.png' %}" class="h-50 dark:hidden"
+                                     alt="">
+                                <img src="{% static 'images/adventist-symbol--bluejay.png' %}"
+                                     class="h-50 hidden dark:block" alt="">
                             </a>
                         </div>
 
@@ -57,9 +60,15 @@
                                             type="submit">Connexion
                                     </button>
                                 </div>
-                            <div class="mt-8 text-center">
+                                <div class="mt-8 text-center">
                                     <p class="mb-0">Mot de passe oublier ?
                                         <a href=""
+                                           class="font-medium text-blue-900 hover:text-red-500"> Clicker ici </a>
+                                    </p>
+                                </div>
+                                <div class="mt-8 text-center">
+                                    <p class="mb-0">Pas de compte ?
+                                        <a href="{% url 'register' %}"
                                            class="font-medium text-blue-900 hover:text-red-500"> Clicker ici </a>
                                     </p>
                                 </div>

@@ -10,19 +10,31 @@ from treasure.models import User, Recap
 def index(request):
     # from django.http import JsonResponse
     # return JsonResponse({"message": "Hello World"})
-    return render(request, 'index.html')
+    if request.session.get('user'):
+        return redirect('dashboard')
+    else:
+        return render(request, 'index.html')
 
 
 def about(request):
-    return render(request, 'about.html')
+    if request.session.get('user'):
+        return redirect('dashboard')
+    else:
+        return render(request, 'about.html')
 
 
 def service(request):
-    return render(request, 'service.html')
+    if request.session.get('user'):
+        return redirect('dashboard')
+    else:
+        return render(request, 'service.html')
 
 
 def team(request):
-    return render(request, 'team.html')
+    if request.session.get('user'):
+        return redirect('dashboard')
+    else:
+        return render(request, 'team.html')
 
 
 def login(request):
@@ -125,7 +137,7 @@ def update_profile(request):
             password = request.POST['password']
             new_password = request.POST['new_password']
             confirm_password = request.POST['confirm_new_password']
-            if password is not None:
+            if not password and not new_password and not confirm_password:
                 pwd = check_password(password, user.password)
                 if pwd:
                     if new_password == confirm_password:
@@ -182,8 +194,14 @@ def manage_recap(request):
         return render(request, 'user/recap-list.html', context, status=200)
 
 
-def recap_show(request):
-    pass
+def recap_show(request,id):
+    if not request.session.get('user'):
+        return redirect('login')
+    else:
+        user_id = request.session.get('user')
+        user = User.objects.get(id=user_id)
+        context = {'user': user}
+        return render(request, 'user/edit_recap.html', context, status=200)
 
 
 def delete_recap(request):

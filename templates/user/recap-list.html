@@ -26,6 +26,15 @@
                                     <div class=" sm:flex space-y-3 sm:space-y-0 justify-between items-center">
                                         <h5 class="text-15 font-semibold text-gray-700 dark:text-white">Recap List</h5>
                                         <div class="flex gap-x-2">
+                                            <form method="post" >
+                                                <input type="file" name="excel_file" enctype="multipart/form-data" required>
+                                                <button type="button"
+                                                    class=" px-3 py-2 text-13 text-white transition-all duration-300 ease-linear bg-blue-500 border-blue-500 hover:bg-blue-600 hover:border-blue-600 hover:text-white active:bg-blue-600 active:border-blue-600 active:text-white focus:bg-blue-600 focus:border-blue-600 focus:text-white focus:ring focus:ring-blue-500/30 btn"
+                                                    id="btn-new-event" data-tw-toggle="modal"
+                                                    data-tw-target="#event-modal">
+                                                Import Excel file
+                                            </button>
+                                            </form>
                                             <button type="button"
                                                     class=" px-3 py-2 text-13 text-white transition-all duration-300 ease-linear bg-blue-500 border-blue-500 hover:bg-blue-600 hover:border-blue-600 hover:text-white active:bg-blue-600 active:border-blue-600 active:text-white focus:bg-blue-600 focus:border-blue-600 focus:text-white focus:ring focus:ring-blue-500/30 btn"
                                                     id="btn-new-event" data-tw-toggle="modal"
@@ -217,7 +226,7 @@
                                     <div>
                                         <label for="event-title"
                                                class="block mb-2 text-13 text-gray-600 dark:text-zink-200 ">Date</label>
-                                        <input type="datetime-local" id="email" name="date"
+                                        <input type="date" id="email" name="date"
                                                class="border text-13 border-gray-400 text-gray-700 dark:text-zink-200 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-zink-700 dark:border-zink-50 dark:placeholder-gray-300 dark:placeholder:text-zink-200 placeholder:text-13"
                                                required="">
                                     </div>

@@ -14,3 +14,19 @@ class User(models.Model):
 
     def __str__(self):
         return self.fullname
+
+
+class Recap(models.Model):
+    number = models.IntegerField()
+    date = models.DateField()
+    church = models.CharField(max_length=250)
+    district = models.CharField(max_length=250)
+    dimes = models.FloatField()
+    total = models.FloatField()
+    period = models.DateField(max_length=250)
+    reference = models.CharField(max_length=250)
+    datereg = models.DateField()
+    montant = models.FloatField()
+    ref = models.CharField(max_length=250)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)

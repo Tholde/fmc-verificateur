@@ -1,0 +1,185 @@
+﻿{% extends 'user/verificateur/base.html' %}
+{% block content %}
+    {% load static %}
+    <div class="relative min-h-screen group-data-[sidebar-size=sm]:min-h-[1500px]">
+
+        <div class="group-data-[sidebar-size=lg]:ltr:lg:ml-vertical-menu group-data-[sidebar-size=lg]:rtl:lg:mr-vertical-menu group-data-[sidebar-size=md]:ltr:ml-vertical-menu-md group-data-[sidebar-size=md]:rtl:mr-vertical-menu-md group-data-[sidebar-size=sm]:ltr:lg:ml-vertical-menu-sm group-data-[sidebar-size=sm]:lg:rtl:mr-vertical-menu-sm pt-[calc(theme('spacing.header')_*_1)] pb-[calc(theme('spacing.header')_*_1)] px-6 group-data-[layout=horizontal]:!mx-auto group-data-[layout=horizontal]:max-w-screen-2xl  group-data-[layout=horizontal]:lg:pt-[calc(theme('spacing.header')_*_1.75)] ">
+            <div class="container-fluid">
+
+                <div class="md:flex items-center justify-between pt-6 pb-5">
+                    <div>
+                        <h6 class="mb-0 text-16 uppercase font-semibold dark:text-white">Manage Report</h6>
+                    </div>
+                    <div class="shrink-0">
+                        <ul class="mb-0 flex items-center gap-4 text-[13px] mt-2 md:mt-0">
+                            <li class="before:content-['/'] before:absolute ltr:before:-right-1 rtl:before:-left-2 before:text-gray-600 before:text-[9px] before:top-0 before:bottom-0 before:flex before:items-center relative pr-3 inline-block">
+                                <a href="#!" class="text-gray-800 dark:text-white font-bold">{{ user.role.upper }}</a></li>
+                            <li class="text-gray-600 dark:text-zink-200">Manage Recap</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="grid grid-cols-12">
+                        <div class="col-span-12 ">
+                            <div class="card dark:bg-zink-700 mb-0 border-b border-gray-400/50 dark:border-zink-50">
+                                <div class="card-body">
+                                    <div class=" sm:flex space-y-3 sm:space-y-0 justify-between items-center">
+                                        <h5 class="text-15 font-semibold text-gray-700 dark:text-white">Repor List</h5>
+                                        <div class="flex gap-x-2">
+                                            <button type="button"
+                                                    class="text-gray-600 transition-all duration-300 ease-linear dark:bg-zink-50 border-gray-50 bg-gray-50 hover:bg-gray-600 hover:border-gray-600 hover:text-white active:bg-gray-600 active:border-gray-600 active:text-white focus:bg-gray-600 focus:ring focus:ring-gray-600/30 focus:border-gray-600 focus:text-white btn dark:border-transparent dark:text-zink-200">
+                                                <a href="{% url 'export_excel' %}">Exporter&nbsp;<i class="mdi mdi-export"></i></a></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-span-12 ">
+                                {% if messages %}
+                                    <div class="group flex justify-content-center mt-4 mb-4 px-10">
+                                        <img src="{% static 'error.png' %}" class="h-6 mx-2" alt="">
+                                        <span class="block text-13 font-bold text-red-700 mb-2 dark:text-red-700"
+                                              for="userpassword">{{ messages }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <form action="" method="get"
+                                  class="grid grid-cols-12 gap-3 border-b border-gray-400/50 p-5 bg-white dark:bg-zink-700 dark:border-zink-50">
+                                <div class="col-span-12 md:col-span-6 xl:col-span-4">
+                                    <input class="dark:outline-none dark:border-transparent dark:text-zink-200 dark:placeholder:text-zink-200 dark:bg-transparent dark:border-zink-50 w-full border rounded py-1.2 p-2 placeholder:text-gray-600 border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-700"
+                                           type="search" placeholder="Rechercher..." id="example-search-input"
+                                           name="search" value="{{ search_query }}">
+                                </div>
+                                <div class="col-span-12 md:col-span-6 xl:col-span-2">
+                                    <button type="submit"
+                                            class="dark:outline-none dark:border-transparent dark:text-zink-200 dark:bg-zink-50 text-gray-600 w-full transition-all h-10 duration-300 ease-linear border-gray-50 bg-[#74788d1a] hover:bg-gray-600 hover:border-gray-600 hover:text-white active:bg-gray-600 active:border-gray-600 active:text-white focus:bg-gray-600 focus:ring focus:ring-gray-600/30 focus:border-gray-600 focus:text-white btn">
+                                        <i class="mdi mdi-filter-outline align-middle"></i>Filtrer
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="card dark:bg-zink-700 dark:text-zink-200 dark:border-zink-50">
+                                <div class="card-body overflow-x-auto whitespace-nowrap">
+                                    <table class="ltr:text-left rtl:text-right table w-full datatable dt-responsive nowrap border-spacing-y-1.5 border-collapse text-gray-800 ">
+                                        <thead>
+                                        <tr>
+                                            <th class="p-3 border-b border-gray-300 items-center text-13 font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                No
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                Date
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                District
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                Church
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                Dimes
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                Total
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                Period
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                Reference
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                Date
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                Montant
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                REF
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                Created
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                Updated
+                                            </th>
+                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
+                                                Action
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% if recap %}
+                                            {% for rp in recap %}
+                                                <tr class="text-gray-600 dark:text-zink-200 text-13 border-b dark:border-zink-50 ">
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200">{{ rp.number }}</td>
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200">{{ rp.date|date:"Y-N-d" }}</td>
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.district }} </td>
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.church }} </td>
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.dimes }} </td>
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.total }} </td>
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.period|date:"N-Y" }} </td>
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.reference }} </td>
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.datereg|date:"d-N-Y" }} </td>
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.montant }} </td>
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.ref }} </td>
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.created|date:"d-N-Y, h:i:s A" }} </td>
+                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.updated|date:"d-N-Y, h:i:s A" }} </td>
+                                                    <td class="p-3 items-center">
+                                                        <ul class="flex">
+                                                            <li>
+                                                                <a data-modal-target="defaultModal" type="button"
+                                                                   href="javascript:void(0);"
+                                                                   class="bg-red-50 w-6 h-6 rounded flex justify-center items-center dark:bg-red-500/10">
+                                                                    <i class="mdi mdi-pencil-box-outline text-red-500 "></i></a>
+
+                                                                <div id="defaultModal" modal-center=""
+                                                                     class="fixed flex flex-col top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 whitespace-normal   w-full  md:w-72 z-drawer show hidden">
+                                                                    <div class="w-full  bg-white shadow rounded-md dark:bg-zink-700 dark:text-zink-200 dark:shadow">
+                                                                        <div class="flex items-center justify-end p-4 ">
+                                                                            <button data-modal-close="defaultModal"><i
+                                                                                    class="mdi mdi-close noti-icon text-16"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="h-full p-4 pt-0">
+                                                                            <p class="bg-blue-50 mb-6 mx-auto w-12 h-12 rounded flex justify-center items-center dark:bg-blue-500/10">
+                                                                                <i class="mdi mdi-pencil-box-multiple-outline text-xl text-blue-500 "></i>
+                                                                            </p>
+                                                                            <p class="mb-2 text-lg text-center text-gray-600 dark:text-zink-200">
+                                                                                Are you sure to add or update detail of
+                                                                                {{ rp.number }}.</p>
+                                                                        </div>
+                                                                        <div class="flex justify-center space-x-2 pb-12">
+                                                                            <a href="{% url 'manage_detail' rp.id %}"
+                                                                               type="button"
+                                                                               class="text-white transition-all duration-300 ease-linear bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600 hover:text-white active:bg-red-600 active:border-red-600 active:text-white focus:bg-red-600 focus:border-red-600 focus:text-white focus:ring focus:ring-red-500/30 btn">
+                                                                                Manage Detail
+                                                                            </a>
+                                                                            <button type="button"
+                                                                                    class="text-white transition-all duration-300 ease-linear bg-gray-600 border-gray-600 hover:bg-gray-700 hover:border-gray-700 hover:text-white active:bg-gray-700 active:border-gray-700 active:text-white focus:bg-gray-700 focus:border-gray-700 focus:text-white focus:ring focus:ring-gray-700/30 btn">
+                                                                                Cancel
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- end table -->
+                        </div>
+                    </div>
+                    <!-- end grid -->
+                </div>
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+        {% include 'user/footer.html' %}
+    </div>
+    <!-- end main content -->
+{% endblock %}

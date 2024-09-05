@@ -15,8 +15,11 @@ urlpatterns = [
     path('update_image/', update_image, name='update_image'),
     path('update_profile/', update_profile, name='update_profile'),
     path('manage_recap/', manage_recap, name='manage_recap'),
-    path('recap_show/', recap_show, name='recap_show'),
-    path('delete_recap/', delete_recap, name='delete_recap'),
+    path('recap_show/<int:id>/', recap_show, name='recap_show'),
+    path('delete_recap/<int:id>', delete_recap, name='delete_recap'),
     path('add_new_report/', add_new_report, name='add_new_report'),
     path('update_recap/', update_recap, name='update_recap'),
+    path('save_excel/', upload_excel, name='save_excel'),
+    path('export_excel/', export_recap_to_excel, name='export_excel'),
+    path('manage_detail/<int:id>/', manage_detail, name='manage_detail'),
 ]

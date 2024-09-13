@@ -26,7 +26,7 @@
                                         <div>
                                             <p class="text-13 font-normal text-gray-600 dark:text-zink-200">Total des
                                                 District</p>
-                                            <h4 class="text-16 font-medium mt-2 leading-5">100</h4>
+                                            <h4 class="text-16 font-medium mt-2 leading-5">{{ distinct_districts|length }}</h4>
                                         </div>
 
                                         <div class="w-12 h-12 bg-blue-50 rounded-full flex justify-center items-center  dark:bg-zink-50">
@@ -41,7 +41,7 @@
                                         <div>
                                             <p class="text-13 font-normal text-gray-600 dark:text-zink-200">
                                                 Total des Eglises</p>
-                                            <h4 class="text-16 font-medium mt-2 leading-5">250</h4>
+                                            <h4 class="text-16 font-medium mt-2 leading-5">{{ distinct_church|length }}</h4>
                                         </div>
                                         <div class="w-12 h-12 bg-blue-50 rounded-full flex justify-center items-center  dark:bg-zink-50">
                                             <i class="bx bxs-note text-[20px] text-blue-500"></i>
@@ -54,8 +54,8 @@
                                     <div class="flex justify-between">
                                         <div>
                                             <p class="text-13 font-normal text-gray-600 dark:text-zink-200">
-                                                Total des Dimes</p>
-                                            <h4 class="text-16 font-medium mt-2 leading-5"></h4>
+                                                Total des Dimes du mois dernier</p>
+                                            <h4 class="text-16 font-medium mt-2 leading-5">{{ dimes }} Ar</h4>
                                         </div>
                                         <div class="w-12 h-12 bg-blue-50 rounded-full flex justify-center items-center  dark:bg-zink-50">
                                             <i class="bx bxs-message-square-dots text-[20px] text-blue-500"></i>
@@ -72,6 +72,8 @@
                                             Rapport</h5>
                                     </div>
                                     <hr class="mt-4 mb-6 border-gray-400/30 dark:border-zink-50">
+{#                                    <div class="apex-charts w-full" data-colors='["#5b73e8", "#f1b44c"]'#}
+{#                                         id="area-chart" dir="ltr"></div>#}
                                     <div class="apex-charts w-full" data-colors='["#5b73e8", "#f1b44c"]'
                                          id="area-chart" dir="ltr"></div>
                                 </div>

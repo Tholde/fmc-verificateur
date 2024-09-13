@@ -4,6 +4,10 @@ import pandas as pd
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Sum
+from django.utils import timezone
+from django.db.models.functions import TruncMonth
+from django.http import HttpResponse, JsonResponse
 
 from treasure.models import User, Recap, Verification
 
@@ -102,19 +106,54 @@ def connexion(request):
             return render(request, 'auth/auth-login.html', context, status=404)
 
 
+def church_counts_by_mounth(request):
+    dimes_by_church = Recap.objects.all().values('church').annotate(total_dimes=Sum('dimes')).order_by('church')
+    return JsonResponse({'dimes_by_church': list(dimes_by_church)})
+
+
 def dashboard(request):
     if not request.session.get('user'):
         return redirect('login')
     else:
         id = request.session.get('user')
         user = User.objects.get(id=id)
-        context = {'user': user}
-        if user.role == 'secretary':
-            return render(request, 'user/secretary/dashboard.html', context, status=200)
-        elif user.role == 'verificateur':
-            return render(request, 'user/verificateur/dashboard.html', context, status=200)
-        else:
-            return redirect('login')
+        try:
+            distinct_districts = Recap.objects.values('district').distinct()
+            distinct_church = Recap.objects.values('church').distinct()
+            total_dimes = Recap.objects.aggregate(total_dimes=Sum('dimes'))['total_dimes']
+            recent_month = Recap.objects.annotate(month=TruncMonth('date')).latest('month').month
+            total_dimes_recent_month = Recap.objects.filter(
+                date__year=recent_month.year, date__month=recent_month.month
+            ).aggregate(total_dimes=Sum('dimes'))['total_dimes']
+            dimes_by_church = Recap.objects.all().values('church').annotate(total_dimes=Sum('dimes')).order_by('church')
+            for dimes in dimes_by_church:
+                print(dimes)
+            for district in distinct_districts:
+                print(district)
+            for church in distinct_church:
+                print(church)
+            print(total_dimes)
+            print(total_dimes_recent_month)
+            context = {'user': user, 'distinct_districts': distinct_districts, 'distinct_church': distinct_church,
+                       'dimes': total_dimes_recent_month, 'church_dimes': dimes_by_church}
+            if user.role == 'secretary':
+                return render(request, 'user/secretary/dashboard.html', context, status=200)
+            elif user.role == 'verificateur':
+                return render(request, 'user/verificateur/dashboard.html', context, status=200)
+            else:
+                return redirect('login')
+        except Recap.DoesNotExist:
+            distinct_districts = None
+            total_dimes_recent_month = 0
+            distinct_church = None
+            context = {'user': user, 'distinct_districts': distinct_districts, 'distinct_church': distinct_church,
+                       'dimes': total_dimes_recent_month}
+            if user.role == 'secretary':
+                return render(request, 'user/secretary/dashboard.html', context, status=200)
+            elif user.role == 'verificateur':
+                return render(request, 'user/verificateur/dashboard.html', context, status=200)
+            else:
+                return redirect('login')
 
 
 def user_profile(request):
@@ -423,38 +462,46 @@ def save_detail(request, id):
         user = User.objects.get(id=user_id)
         recap = get_object_or_404(Recap, id=id)
         verification = Verification.objects.get(recap=recap)
-        if request.method == 'POST':
-            # recap_number = request.POST.get('number')
-            # recap = Recap.objects.get(number=recap_number)
-            eds = request.POST.get('eds')
-            prosperty = request.POST.get('prosperity')
-            aniversary = request.POST.get('aniversary')
-            worship = request.POST.get('worship')
-            federation = request.POST.get('federation')
-            mondial = request.POST.get('mondial')
-            special = request.POST.get('special')
-            frais = request.POST.get('frais')
-            entree = request.POST.get('entree')
-            sortie = request.POST.get('sortie')
-            somme = float(eds) + float(aniversary) + float(prosperty) + float(worship) + float(federation) + float(
-                mondial) + float(special) + float(frais)
-            if somme == recap.total:
-                print("Mety ny verification")
-                verification.eds = eds
-                verification.prosperity = prosperty
-                verification.aniversary = aniversary
-                verification.worship = worship
-                verification.federation = federation
-                verification.mondial = mondial
-                verification.special = special
-                verification.frais = frais
-                verification.entree = entree
-                verification.sortie = sortie
-                verification.save()
-                return redirect('manage_recap')
-            else:
-                print("Misy diso ny kaonty")
-                messages = ("Erreur de verificatio. Le total de votre verification n'est pas compatible au total grand "
-                            "livre.")
-                context = {'user': user, 'messages': messages, 'verification': verification}
-                return render(request, 'user/verificateur/verification.html', context, status=404)
+        try:
+            if request.method == 'POST':
+                # recap_number = request.POST.get('number')
+                # recap = Recap.objects.get(number=recap_number)
+                eds = request.POST.get('eds')
+                prosperty = request.POST.get('prosperity')
+                aniversary = request.POST.get('aniversary')
+                worship = request.POST.get('worship')
+                federation = request.POST.get('federation')
+                mondial = request.POST.get('mondial')
+                special = request.POST.get('special')
+                frais = request.POST.get('frais')
+                entree = request.POST.get('entree')
+                sortie = request.POST.get('sortie')
+                somme = float(eds) + float(aniversary) + float(prosperty) + float(worship) + float(federation) + float(
+                    mondial) + float(special) + float(frais)
+                if somme == recap.total:
+                    print("Mety ny verification")
+                    verification.eds = eds
+                    verification.prosperity = prosperty
+                    verification.aniversary = aniversary
+                    verification.worship = worship
+                    verification.federation = federation
+                    verification.mondial = mondial
+                    verification.special = special
+                    verification.frais = frais
+                    verification.entree = entree
+                    verification.sortie = sortie
+                    verification.save()
+                    recap.is_verified = True
+                    recap.save()
+                    return redirect('manage_recap')
+                else:
+                    print("Misy diso ny kaonty")
+                    messages = (
+                        "Erreur de verificatio. Le total de votre verification n'est pas compatible au total grand "
+                        "livre.")
+                    context = {'user': user, 'messages': messages, 'verification': verification}
+                    return render(request, 'user/verificateur/verification.html', context, status=404)
+        except:
+            messages = "Erreur d'enter."
+            context = {'user': user, 'messages': messages, 'verification': verification}
+            return render(request, 'user/verificateur/verification.html', context, status=404)

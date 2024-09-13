@@ -2,10 +2,8 @@
 {% block content %}
     {% load static %}
     <div class="relative min-h-screen group-data-[sidebar-size=sm]:min-h-[1500px]">
-
         <div class="group-data-[sidebar-size=lg]:ltr:lg:ml-vertical-menu group-data-[sidebar-size=lg]:rtl:lg:mr-vertical-menu group-data-[sidebar-size=md]:ltr:ml-vertical-menu-md group-data-[sidebar-size=md]:rtl:mr-vertical-menu-md group-data-[sidebar-size=sm]:ltr:lg:ml-vertical-menu-sm group-data-[sidebar-size=sm]:lg:rtl:mr-vertical-menu-sm pt-[calc(theme('spacing.header')_*_1)] pb-[calc(theme('spacing.header')_*_1)] px-6 group-data-[layout=horizontal]:!mx-auto group-data-[layout=horizontal]:max-w-screen-2xl  group-data-[layout=horizontal]:lg:pt-[calc(theme('spacing.header')_*_1.75)] ">
             <div class="container-fluid">
-
                 <div class="md:flex items-center justify-between pt-6 pb-5">
                     <div>
                         <h6 class="mb-0 text-16 uppercase font-semibold dark:text-white">Manage Recap</h6>
@@ -13,7 +11,8 @@
                     <div class="shrink-0">
                         <ul class="mb-0 flex items-center gap-4 text-[13px] mt-2 md:mt-0">
                             <li class="before:content-['/'] before:absolute ltr:before:-right-1 rtl:before:-left-2 before:text-gray-600 before:text-[9px] before:top-0 before:bottom-0 before:flex before:items-center relative pr-3 inline-block">
-                                <a href="#!" class="text-gray-800 dark:text-white font-bold">{{ user.role.upper }}</a></li>
+                                <a href="#!" class="text-gray-800 dark:text-white font-bold">{{ user.role.upper }}</a>
+                            </li>
                             <li class="text-gray-600 dark:text-zink-200">Manage Recap</li>
                         </ul>
                     </div>
@@ -26,7 +25,8 @@
                                     <div class=" sm:flex space-y-3 sm:space-y-0 justify-between items-center">
                                         <h5 class="text-15 font-semibold text-gray-700 dark:text-white">Recap List</h5>
                                         <div class="flex gap-x-2">
-                                            <form method="post" action="{% url 'save_excel' %}" enctype="multipart/form-data">
+                                            <form method="post" action="{% url 'save_excel' %}"
+                                                  enctype="multipart/form-data">
                                                 {% csrf_token %}
                                                 <input type="file" accept=".csv, .xls, .xlsx, .xlsm, .xlsb"
                                                        name="excel" required>
@@ -44,7 +44,8 @@
                                             </button>
                                             <button type="button"
                                                     class="text-gray-600 transition-all duration-300 ease-linear dark:bg-zink-50 border-gray-50 bg-gray-50 hover:bg-gray-600 hover:border-gray-600 hover:text-white active:bg-gray-600 active:border-gray-600 active:text-white focus:bg-gray-600 focus:ring focus:ring-gray-600/30 focus:border-gray-600 focus:text-white btn dark:border-transparent dark:text-zink-200">
-                                                <a href="{% url 'export_excel' %}">Exporter&nbsp;<i class="mdi mdi-export"></i></a></button>
+                                                <a href="{% url 'export_excel' %}">Exporter&nbsp;<i
+                                                        class="mdi mdi-export"></i></a></button>
                                         </div>
                                     </div>
                                 </div>
@@ -194,7 +195,6 @@
                     </div>
                     <!-- end grid -->
                 </div>
-
             </div>
             <!-- container-fluid -->
         </div>
@@ -255,16 +255,16 @@
                                         <div class="inline-block mx-4">
                                             <label for="event-title"
                                                    class="block mb-2 text-13 text-gray-600 dark:text-zink-200 ">Dimes</label>
-                                            <input type="text" id="address" name="dimes"
+                                            <input type="number" id="address" name="dimes"
                                                    class="border text-13 border-gray-400 text-gray-700 dark:text-zink-200 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-zink-700 dark:border-zink-50 dark:placeholder-gray-300 dark:placeholder:text-zink-200 placeholder:text-13"
-                                                   placeholder="Enter Dimes" required="">
+                                                    step="0.001" placeholder="0.000" required="">
                                         </div>
                                         <div class="inline-block">
                                             <label for="event-title"
                                                    class="block mb-2 text-13 text-gray-600 dark:text-zink-200 ">Total</label>
-                                            <input type="text" id="contact" name="contact"
+                                            <input type="number" id="contact" name="contact"
                                                    class="border text-13 border-gray-400 text-gray-700 dark:text-zink-200 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-zink-700 dark:border-zink-50 dark:placeholder-gray-300 dark:placeholder:text-zink-200 placeholder:text-13"
-                                                   placeholder="Enter Total" required="">
+                                                   step="0.001" placeholder="0.000" required="">
                                         </div>
                                     </div>
                                     <div class="flex">
@@ -296,9 +296,9 @@
                                         <div class="inline-block">
                                             <label for="event-title"
                                                    class="block mb-2 text-13 text-gray-600 dark:text-zink-200 ">Montant</label>
-                                            <input type="text" id="confirm_password" name="montant"
+                                            <input type="number" id="confirm_password" name="montant"
                                                    class="border text-13 border-gray-400 text-gray-700 dark:text-zink-200 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-zink-700 dark:border-zink-50 dark:placeholder-gray-300 dark:placeholder:text-zink-200 placeholder:text-13"
-                                                   placeholder="Enter Montant" required="">
+                                                   step="0.001" placeholder="0.000" required>
                                         </div>
                                     </div>
                                     <div class="flex">

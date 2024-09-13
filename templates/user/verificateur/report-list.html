@@ -13,8 +13,9 @@
                     <div class="shrink-0">
                         <ul class="mb-0 flex items-center gap-4 text-[13px] mt-2 md:mt-0">
                             <li class="before:content-['/'] before:absolute ltr:before:-right-1 rtl:before:-left-2 before:text-gray-600 before:text-[9px] before:top-0 before:bottom-0 before:flex before:items-center relative pr-3 inline-block">
-                                <a href="#!" class="text-gray-800 dark:text-white font-bold">{{ user.role.upper }}</a></li>
-                            <li class="text-gray-600 dark:text-zink-200">Manage Recap</li>
+                                <a href="#!" class="text-gray-800 dark:text-white font-bold">{{ user.role.upper }}</a>
+                            </li>
+                            <li class="text-gray-600 dark:text-zink-200">Manage Report</li>
                         </ul>
                     </div>
                 </div>
@@ -28,7 +29,8 @@
                                         <div class="flex gap-x-2">
                                             <button type="button"
                                                     class="text-gray-600 transition-all duration-300 ease-linear dark:bg-zink-50 border-gray-50 bg-gray-50 hover:bg-gray-600 hover:border-gray-600 hover:text-white active:bg-gray-600 active:border-gray-600 active:text-white focus:bg-gray-600 focus:ring focus:ring-gray-600/30 focus:border-gray-600 focus:text-white btn dark:border-transparent dark:text-zink-200">
-                                                <a href="{% url 'export_excel' %}">Exporter&nbsp;<i class="mdi mdi-export"></i></a></button>
+                                                <a href="{% url 'export_excel' %}">Exporter&nbsp;<i
+                                                        class="mdi mdi-export"></i></a></button>
                                         </div>
                                     </div>
                                 </div>
@@ -92,15 +94,6 @@
                                                 Montant
                                             </th>
                                             <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
-                                                REF
-                                            </th>
-                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
-                                                Created
-                                            </th>
-                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
-                                                Updated
-                                            </th>
-                                            <th class="p-3 border-b border-gray-300 text-13 items-center font-semibold dark:border-zink-50 dark:text-zink-200 ">
                                                 Action
                                             </th>
                                         </tr>
@@ -119,9 +112,6 @@
                                                     <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.reference }} </td>
                                                     <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.datereg|date:"d-N-Y" }} </td>
                                                     <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.montant }} </td>
-                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.ref }} </td>
-                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.created|date:"d-N-Y, h:i:s A" }} </td>
-                                                    <td class="p-3 border-b border-gray-300 text-13 items-center dark:border-zink-50 dark:text-zink-200"> {{ rp.updated|date:"d-N-Y, h:i:s A" }} </td>
                                                     <td class="p-3 items-center">
                                                         <ul class="flex">
                                                             <li>

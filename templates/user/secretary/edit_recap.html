@@ -13,7 +13,8 @@
                     <div class="shrink-0">
                         <ul class="mb-0 flex items-center gap-4 text-[13px] mt-2 md:mt-0">
                             <li class="before:content-['/'] before:absolute ltr:before:-right-1 rtl:before:-left-2 before:text-gray-600 before:text-[9px] before:top-0 before:bottom-0 before:flex before:items-center relative pr-3 inline-block">
-                                <a href="" class="text-gray-800 dark:text-white font-bold">{{ user.role.upper }}</a></li>
+                                <a href="" class="text-gray-800 dark:text-white font-bold">{{ user.role.upper }}</a>
+                            </li>
                             <li class="text-gray-600 dark:text-zink-200">Edit Recap Information</li>
                         </ul>
                     </div>
@@ -33,12 +34,13 @@
                                                 <div class="col-span-12 md:col-span-6">
                                                     <div class="mb-3">
                                                         <label for="verticalnav-firstname-input"
-                                                               class="block font-medium text-13 text-gray-600 mb-2 dark:text-zink-200">Number</label>
+                                                               class="block font-medium text-13 text-gray-600 mb-2 dark:text-zink-200">Registration
+                                                            Number</label>
                                                         <input type="number"
                                                                class="dark:bg-transparent dark:border-zink-50 dark:placeholder:text-zink-200 w-full border py-2 px-3 placeholder:text-gray-600 rounded border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-600 dark:text-zink-200 font-bold"
                                                                id="verticalnav-firstname-input"
                                                                value="{{ recap.number }}" name="number"
-                                                               placeholder="Enter number">
+                                                               placeholder="Enter number" required>
                                                     </div>
                                                 </div><!-- end grid -->
                                                 <div class="col-span-12 md:col-span-6">
@@ -48,7 +50,7 @@
                                                         <input type="date"
                                                                class="dark:bg-transparent dark:border-zink-50 dark:placeholder:text-zink-200 w-full border py-2 px-3 placeholder:text-gray-600 rounded border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-600 dark:text-zink-200 font-bold"
                                                                id="verticalnav-lastname-input"
-                                                               value="{{ recap.date }}" name="date">
+                                                               value="{{ recap.date }}" name="date" required>
                                                     </div>
                                                 </div><!-- end grid -->
                                             </div><!-- end row -->
@@ -62,7 +64,7 @@
                                                                class="dark:bg-transparent dark:border-zink-50 dark:placeholder:text-zink-200 w-full border py-2 px-3 placeholder:text-gray-600 rounded border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-600 dark:text-zink-200 font-bold"
                                                                id="verticalnav-phoneno-input" name="church"
                                                                value="{{ recap.church }}"
-                                                               placeholder="Enter your church">
+                                                               placeholder="Enter your church" required>
                                                     </div>
                                                 </div><!-- end grid -->
                                                 <div class="col-span-12 md:col-span-6">
@@ -73,7 +75,7 @@
                                                                class="dark:bg-transparent dark:border-zink-50 dark:placeholder:text-zink-200 w-full border py-2 px-3 placeholder:text-gray-600 rounded border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-600 dark:text-zink-200 font-bold"
                                                                id="verticalnav-email-input" name="district"
                                                                value="{{ recap.district }}"
-                                                               placeholder="Enter district">
+                                                               placeholder="Enter district" required>
                                                     </div>
                                                 </div><!-- end grid -->
                                             </div><!-- end row -->
@@ -85,8 +87,7 @@
                                                         <input type="number"
                                                                class="dark:bg-transparent dark:border-zink-50 dark:placeholder:text-zink-200 w-full border py-2 px-3 placeholder:text-gray-600 rounded border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-600 dark:text-zink-200 font-bold"
                                                                id="verticalnav-phoneno-input" name="dimes"
-                                                               value="{{ recap.dimes }}"
-                                                               placeholder="Enter dimes">
+                                                               value="{{ recap.dimes }}" step="0.001" placeholder="0.000" required>
                                                     </div>
                                                 </div><!-- end grid -->
                                                 <div class="col-span-12 md:col-span-6">
@@ -96,8 +97,7 @@
                                                         <input type="number"
                                                                class="dark:bg-transparent dark:border-zink-50 dark:placeholder:text-zink-200 w-full border py-2 px-3 placeholder:text-gray-600 rounded border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-600 dark:text-zink-200 font-bold"
                                                                id="verticalnav-phoneno-input" name="total"
-                                                               value="{{ recap.total }}"
-                                                               placeholder="Enter total">
+                                                               value="{{ recap.total }}" step="0.001" placeholder="0.000" required>
                                                     </div>
                                                 </div><!-- end grid -->
                                             </div><!-- end row -->
@@ -109,7 +109,7 @@
                                                         <input type="month"
                                                                class="dark:bg-transparent dark:border-zink-50 dark:placeholder:text-zink-200 w-full border py-2 px-3 placeholder:text-gray-600 rounded border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-600 dark:text-zink-200 font-bold"
                                                                id="verticalnav-phoneno-input" name="period"
-                                                               value="{{ recap.period.month }}">
+                                                               value="{{ recap.period.month }}" required>
                                                     </div>
                                                 </div><!-- end grid -->
                                                 <div class="col-span-12 md:col-span-6">
@@ -120,11 +120,11 @@
                                                                class="dark:bg-transparent dark:border-zink-50 dark:placeholder:text-zink-200 w-full border py-2 px-3 placeholder:text-gray-600 rounded border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-600 dark:text-zink-200 font-bold"
                                                                id="verticalnav-phoneno-input" name="reference"
                                                                value="{{ recap.reference }}"
-                                                               placeholder="Enter reference">
+                                                               placeholder="Enter reference" required>
                                                     </div>
                                                 </div><!-- end grid -->
                                             </div><!-- end row -->
-                                        <div class="grid grid-cols-12 gap-x-5">
+                                            <div class="grid grid-cols-12 gap-x-5">
                                                 <div class="col-span-12 md:col-span-6">
                                                     <div class="mb-3">
                                                         <label for="verticalnav-phoneno-input"
@@ -132,7 +132,7 @@
                                                         <input type="date"
                                                                class="dark:bg-transparent dark:border-zink-50 dark:placeholder:text-zink-200 w-full border py-2 px-3 placeholder:text-gray-600 rounded border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-600 dark:text-zink-200 font-bold"
                                                                id="verticalnav-phoneno-input" name="datereg"
-                                                               value="{{ recap.datereg }}">
+                                                               value="{{ recap.datereg }}" required>
                                                     </div>
                                                 </div><!-- end grid -->
                                                 <div class="col-span-12 md:col-span-6">
@@ -142,12 +142,11 @@
                                                         <input type="number"
                                                                class="dark:bg-transparent dark:border-zink-50 dark:placeholder:text-zink-200 w-full border py-2 px-3 placeholder:text-gray-600 rounded border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-600 dark:text-zink-200 font-bold"
                                                                id="verticalnav-phoneno-input" name="montant"
-                                                               value="{{ recap.montant }}"
-                                                               placeholder="Enter montant">
+                                                               value="{{ recap.montant }}" step="0.001" placeholder="0.000"  required>
                                                     </div>
                                                 </div><!-- end grid -->
                                             </div><!-- end row -->
-                                        <div class="grid grid-cols-12 gap-x-5">
+                                            <div class="grid grid-cols-12 gap-x-5">
                                                 <div class="col-span-12 md:col-span-6">
                                                     <div class="mb-3">
                                                         <label for="verticalnav-phoneno-input"
@@ -155,7 +154,7 @@
                                                         <input type="text"
                                                                class="dark:bg-transparent dark:border-zink-50 dark:placeholder:text-zink-200 w-full border py-2 px-3 placeholder:text-gray-600 rounded border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-600 dark:text-zink-200 font-bold"
                                                                id="verticalnav-phoneno-input" name="ref"
-                                                               value="{{ recap.ref }}">
+                                                               value="{{ recap.ref }}" required>
                                                     </div>
                                                 </div><!-- end grid -->
                                             </div><!-- end row -->

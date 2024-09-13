@@ -2,7 +2,6 @@
 {% block content %}
     {% load static %}
     <div class="relative min-h-screen group-data-[sidebar-size=sm]:min-h-[1500px]">
-
         <div class="group-data-[sidebar-size=lg]:ltr:lg:ml-vertical-menu group-data-[sidebar-size=lg]:rtl:lg:mr-vertical-menu group-data-[sidebar-size=md]:ltr:ml-vertical-menu-md group-data-[sidebar-size=md]:rtl:mr-vertical-menu-md group-data-[sidebar-size=sm]:ltr:lg:ml-vertical-menu-sm group-data-[sidebar-size=sm]:lg:rtl:mr-vertical-menu-sm pt-[calc(theme('spacing.header')_*_1)] pb-[calc(theme('spacing.header')_*_1)] px-6 group-data-[layout=horizontal]:!mx-auto group-data-[layout=horizontal]:max-w-screen-2xl  group-data-[layout=horizontal]:lg:pt-[calc(theme('spacing.header')_*_1.75)] ">
             <div class="container-fluid">
                 <div class="md:flex items-center justify-between pt-6 pb-5">
@@ -27,7 +26,8 @@
                                     <!-- Seller Details -->
                                     <div class="flex justify-content-center">
                                         <div class="card-body">
-                                            <h4 class="text-15 font-semibold mb-2 flex justify-content-center">Profile Picture</h4>
+                                            <h4 class="text-15 font-semibold mb-2 flex justify-content-center">Profile
+                                                Picture</h4>
                                             <div class="p-0.5 ring-2 ring-gray-400 dark:ring-zink-800 w-[120px] h-[120px] rounded-full mx-2">
                                                 <img class="rounded-full w-[120px] h-[120px]"
                                                      src="{{ user.image.url }}"
@@ -96,7 +96,8 @@
                                                         <input type="tel"
                                                                class="dark:bg-transparent dark:border-zink-50 dark:placeholder:text-zink-200 w-full border py-2 px-3 placeholder:text-gray-600 rounded border-gray-400 placeholder:text-13 focus:border focus:border-gray-400 focus:ring-0 focus:outline-none text-gray-600 dark:text-zink-200 font-bold"
                                                                id="verticalnav-phoneno-inut" name="contact"
-                                                               value="{{ user.contact }}" placeholder="Enter your Phone" required>
+                                                               value="{{ user.contact }}" placeholder="Enter your Phone"
+                                                               required>
                                                     </div>
                                                 </div><!-- end grid -->
                                                 <div class="col-span-12 md:col-span-6">

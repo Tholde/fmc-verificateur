@@ -22,4 +22,5 @@ urlpatterns = [
     path('save_excel/', upload_excel, name='save_excel'),
     path('export_excel/', export_recap_to_excel, name='export_excel'),
     path('manage_detail/<int:id>/', manage_detail, name='manage_detail'),
+    path('save_detail/<int:id>/', save_detail, name='save_detail'),
 ]

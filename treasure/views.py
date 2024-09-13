@@ -3,9 +3,9 @@ import pandas as pd
 
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
-from treasure.models import User, Recap
+from treasure.models import User, Recap, Verification
 
 
 def index(request):
@@ -213,7 +213,7 @@ def manage_recap(request):
     else:
         id = request.session.get('user')
         user = User.objects.get(id=id)
-        recap = Recap.objects.all().order_by('-created')
+        recap = Recap.objects.all().filter(is_verified=False).order_by('-created')
         context = {'user': user, 'recap': recap}
         if user.role == 'secretary':
             return render(request, 'user/secretary/recap-list.html', context, status=200)
@@ -257,12 +257,12 @@ def add_new_report(request):
                 date = request.POST['date']
                 church = request.POST['church']
                 district = request.POST['district']
-                dimes = request.POST['dimes']
-                total = request.POST['total']
+                dimes = float(request.POST['dimes'])
+                total = float(request.POST['total'])
                 period = request.POST['period']
                 reference = request.POST['reference']
                 datereg = request.POST['datereg']
-                montant = request.POST['montant']
+                montant = float(request.POST['montant'])
                 ref = request.POST['ref']
                 recap = Recap(number=number, date=date, church=church, district=district, dimes=dimes, total=total,
                               period=period, reference=reference, datereg=datereg, montant=montant, ref=ref)
@@ -286,12 +286,12 @@ def update_recap(request, id):
                 date = request.POST['date']
                 church = request.POST['church']
                 district = request.POST['district']
-                dimes = request.POST['dimes']
-                total = request.POST['total']
+                dimes = float(request.POST['dimes'])
+                total = float(request.POST['total'])
                 period = request.POST['period']
                 reference = request.POST['reference']
                 datereg = request.POST['datereg']
-                montant = request.POST['montant']
+                montant = float(request.POST['montant'])
                 ref = request.POST['ref']
                 if recap:
                     recap.number = number
@@ -322,62 +322,139 @@ def upload_excel(request):
         return redirect('login')
     else:
         if request.method == 'POST':
-            excel_file = request.FILES['excel']
-            print("madalo eto\n")
-            df = pd.read_excel(excel_file)
-            for index, row in df.iterrows():
-                print("mandalo eto\n")
-                print(row)
-                date = pd.to_datetime(row['date'], errors='coerce')
-                period = pd.to_datetime(row['period'], errors='coerce')
-                datereg = pd.to_datetime(row['datereg'], errors='coerce')
+            try:
+                excel_file = request.FILES['excel']
+                print("madalo eto\n")
+                df = pd.read_excel(excel_file)
+                for index, row in df.iterrows():
+                    print("mandalo eto\n")
+                    print(row)
+                    date = pd.to_datetime(row['date'], errors='coerce')
+                    period = pd.to_datetime(row['period'], errors='coerce')
+                    datereg = pd.to_datetime(row['datereg'], errors='coerce')
 
-                if pd.isna(date) or pd.isna(period) or pd.isna(datereg):
-                    print(f"Skipping row {index} due to invalid date(s)")
-                    continue
+                    if pd.isna(date) or pd.isna(period) or pd.isna(datereg):
+                        print(f"Skipping row {index} due to invalid date(s)")
+                        continue
 
-                date = date.date()
-                period = period.date()
-                datereg = datereg.date()
-                number = row['number'] if pd.notna(row['number']) else None
-                church = row['church'] if pd.notna(row['church']) else ''
-                district = row['district'] if pd.notna(row['district']) else ''
-                dimes = row['dimes'] if pd.notna(row['dimes']) else 0
-                total = row['total'] if pd.notna(row['total']) else 0
-                reference = row['reference'] if pd.notna(row['reference']) else ''
-                montant = row['montant'] if pd.notna(row['montant']) else 0
-                ref = row['ref'] if pd.notna(row['ref']) else ''
-
-                Recap.objects.create(
-                    number=number,
-                    date=date,
-                    church=church,
-                    district=district,
-                    dimes=dimes,
-                    total=total,
-                    period=period,
-                    reference=reference,
-                    datereg=datereg,
-                    montant=montant,
-                    ref=ref
-                )
-            return redirect('manage_recap')
+                    date = date.date()
+                    period = period.date()
+                    datereg = datereg.date()
+                    number = row['number'] if pd.notna(row['number']) else None
+                    church = row['church'] if pd.notna(row['church']) else ''
+                    district = row['district'] if pd.notna(row['district']) else ''
+                    dimes = row['dimes'] if pd.notna(row['dimes']) else 0
+                    total = row['total'] if pd.notna(row['total']) else 0
+                    reference = row['reference'] if pd.notna(row['reference']) else ''
+                    montant = row['montant'] if pd.notna(row['montant']) else 0
+                    ref = row['ref'] if pd.notna(row['ref']) else ''
+                    recap = Recap.objects.create(
+                        number=number,
+                        date=date,
+                        church=church,
+                        district=district,
+                        dimes=dimes,
+                        total=total,
+                        period=period,
+                        reference=reference,
+                        datereg=datereg,
+                        montant=montant,
+                        ref=ref
+                    )
+                    recap.save()
+                    Verification.objects.create(recap=recap)
+                return redirect('manage_recap')
+            except:
+                messages = ('Essayer de definir l\'en tete de votre fichier comme number, date, church, district, '
+                            'dimes, total, period, reference, datereg, montant et ref.')
+                context = {'user': request.user, 'messages': messages}
+                return render(request, 'user/secretary/echec_importation.html', context, status=404)
         return redirect('dashboard')
 
 
 def export_recap_to_excel(request):
-    recaps = Recap.objects.all().values('number', 'date', 'church', 'district',
-                                        'dimes', 'total', 'period', 'reference',
-                                        'datereg', 'montant', 'ref')
-    df = pd.DataFrame(list(recaps))
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="recap_data.xlsx"'
-    with pd.ExcelWriter(response, engine='openpyxl') as writer:
-        df.to_excel(writer, index=False)
-
-    return response
+    if not request.session.get('user'):
+        return redirect('login')
+    else:
+        user_id = request.session.get('user')
+        user = User.objects.get(id=user_id)
+        if user.role == 'secretary':
+            recaps = Recap.objects.all().values('number', 'date', 'church', 'district',
+                                                'dimes', 'total', 'period', 'reference',
+                                                'datereg', 'montant', 'ref')
+            df = pd.DataFrame(list(recaps))
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename="recap_data.xlsx"'
+            with pd.ExcelWriter(response, engine='openpyxl') as writer:
+                df.to_excel(writer, index=False)
+            return response
+        else:
+            recaps = Recap.objects.all().values('number', 'date', 'church', 'district',
+                                                'dimes', 'total', 'period', 'reference',
+                                                'montant')
+            df = pd.DataFrame(list(recaps))
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename="recap_data.xlsx"'
+            with pd.ExcelWriter(response, engine='openpyxl') as writer:
+                df.to_excel(writer, index=False)
+            return response
 
 
 # ***************************************** VERIFICATEUR *********************************
-def manage_detail(request,id):
-    pass
+def manage_detail(request, id):
+    if not request.session.get('user'):
+        return redirect('login')
+    else:
+        user_id = request.session.get('user')
+        user = User.objects.get(id=user_id)
+        verification = Verification.objects.get(recap=id)
+        context = {'user': user, 'verification': verification}
+        if user.role == 'verificateur':
+            return render(request, 'user/verificateur/verification.html', context, status=200)
+        else:
+            return redirect('dashboard')
+
+
+def save_detail(request, id):
+    if not request.session.get('user'):
+        return redirect('login')
+    else:
+        user_id = request.session.get('user')
+        user = User.objects.get(id=user_id)
+        recap = get_object_or_404(Recap, id=id)
+        verification = Verification.objects.get(recap=recap)
+        if request.method == 'POST':
+            # recap_number = request.POST.get('number')
+            # recap = Recap.objects.get(number=recap_number)
+            eds = request.POST.get('eds')
+            prosperty = request.POST.get('prosperity')
+            aniversary = request.POST.get('aniversary')
+            worship = request.POST.get('worship')
+            federation = request.POST.get('federation')
+            mondial = request.POST.get('mondial')
+            special = request.POST.get('special')
+            frais = request.POST.get('frais')
+            entree = request.POST.get('entree')
+            sortie = request.POST.get('sortie')
+            somme = float(eds) + float(aniversary) + float(prosperty) + float(worship) + float(federation) + float(
+                mondial) + float(special) + float(frais)
+            if somme == recap.total:
+                print("Mety ny verification")
+                verification.eds = eds
+                verification.prosperity = prosperty
+                verification.aniversary = aniversary
+                verification.worship = worship
+                verification.federation = federation
+                verification.mondial = mondial
+                verification.special = special
+                verification.frais = frais
+                verification.entree = entree
+                verification.sortie = sortie
+                verification.save()
+                return redirect('manage_recap')
+            else:
+                print("Misy diso ny kaonty")
+                messages = ("Erreur de verificatio. Le total de votre verification n'est pas compatible au total grand "
+                            "livre.")
+                context = {'user': user, 'messages': messages, 'verification': verification}
+                return render(request, 'user/verificateur/verification.html', context, status=404)

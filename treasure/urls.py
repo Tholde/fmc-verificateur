@@ -24,4 +24,5 @@ urlpatterns = [
     path('manage_detail/<int:id>/', manage_detail, name='manage_detail'),
     path('save_detail/<int:id>/', save_detail, name='save_detail'),
     path('save-selections/', church_counts_by_mounth, name='save_selections'),
+    path('logout/', logout, name='logout'),
 ]

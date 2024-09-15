@@ -252,11 +252,21 @@ def manage_recap(request):
     else:
         id = request.session.get('user')
         user = User.objects.get(id=id)
-        recap = Recap.objects.all().filter(is_verified=False).order_by('-created')
-        context = {'user': user, 'recap': recap}
+        recap = Recap.objects.filter(is_verified=False).order_by('-created')
+        search_query = request.GET.get('search', '')
         if user.role == 'secretary':
+            if search_query:
+                recap = recap.filter(number__in=int(search_query)) | recap.filter(
+                    church__icontains=str(search_query).lower()) | recap.filter(
+                    district__icontains=str(search_query).lower()) | recap.filter(
+                    reference__icontains=str(search_query).lower()) | recap.filter(
+                    ref__icontains=str(search_query).lower())
+                context = {'user': user, 'recap': recap}
+                return render(request, 'user/secretary/recap-list.html', context, status=200)
+            context = {'user': user, 'recap': recap}
             return render(request, 'user/secretary/recap-list.html', context, status=200)
         elif user.role == 'verificateur':
+            context = {'user': user, 'recap': recap}
             return render(request, 'user/verificateur/report-list.html', context, status=200)
         else:
             return redirect('dashboard')
@@ -290,26 +300,26 @@ def add_new_report(request):
     if not request.session.get('user'):
         return redirect('login')
     else:
-        try:
+        # try:
             if request.method == 'POST':
                 number = request.POST['number']
                 date = request.POST['date']
                 church = request.POST['church']
                 district = request.POST['district']
-                dimes = float(request.POST['dimes'])
-                total = float(request.POST['total'])
+                dimes = request.POST['dimes']
+                total = request.POST['total']
                 period = request.POST['period']
                 reference = request.POST['reference']
                 datereg = request.POST['datereg']
-                montant = float(request.POST['montant'])
+                montant = request.POST['montant']
                 ref = request.POST['ref']
                 recap = Recap(number=number, date=date, church=church, district=district, dimes=dimes, total=total,
                               period=period, reference=reference, datereg=datereg, montant=montant, ref=ref)
                 recap.save()
                 return redirect('add_new_report')
-        except:
-            print('Something went wrong.')
-            return redirect('dashboard')
+        # except:
+        #     print('Something went wrong.')
+        #     return redirect('dashboard')
 
 
 def update_recap(request, id):
@@ -505,3 +515,9 @@ def save_detail(request, id):
             messages = "Erreur d'enter."
             context = {'user': user, 'messages': messages, 'verification': verification}
             return render(request, 'user/verificateur/verification.html', context, status=404)
+
+
+def logout(request):
+    request.session.pop('user', None)
+    request.session.modified = True
+    return redirect('login')

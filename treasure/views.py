@@ -300,7 +300,7 @@ def add_new_report(request):
     if not request.session.get('user'):
         return redirect('login')
     else:
-        # try:
+        try:
             if request.method == 'POST':
                 number = request.POST['number']
                 date = request.POST['date']
@@ -317,9 +317,9 @@ def add_new_report(request):
                               period=period, reference=reference, datereg=datereg, montant=montant, ref=ref)
                 recap.save()
                 return redirect('add_new_report')
-        # except:
-        #     print('Something went wrong.')
-        #     return redirect('dashboard')
+        except:
+            print('Something went wrong.')
+            return redirect('dashboard')
 
 
 def update_recap(request, id):

@@ -22,7 +22,7 @@ class Recap(models.Model):
     district = models.CharField(max_length=250, null=True)
     dimes = models.FloatField(null=True)
     total = models.FloatField(null=True)
-    period = models.DateField(max_length=250, null=True)
+    period = models.CharField(max_length=15, null=True)
     reference = models.CharField(max_length=250, null=True)
     datereg = models.DateField(null=True)
     montant = models.FloatField()

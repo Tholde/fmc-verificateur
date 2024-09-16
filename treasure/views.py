@@ -256,11 +256,19 @@ def manage_recap(request):
         search_query = request.GET.get('search', '')
         if user.role == 'secretary':
             if search_query:
-                recap = recap.filter(number__in=int(search_query)) | recap.filter(
-                    church__icontains=str(search_query).lower()) | recap.filter(
-                    district__icontains=str(search_query).lower()) | recap.filter(
-                    reference__icontains=str(search_query).lower()) | recap.filter(
-                    ref__icontains=str(search_query).lower())
+                try:
+                    search_query_int = int(search_query)
+                    recap = recap.filter(number__in=[search_query_int])
+                except ValueError:
+                    recap = recap.filter(
+                        church__icontains=search_query.lower()
+                    ) | recap.filter(
+                        district__icontains=search_query.lower()
+                    ) | recap.filter(
+                        reference__icontains=search_query.lower()
+                    ) | recap.filter(
+                        ref__icontains=search_query.lower()
+                    )
                 context = {'user': user, 'recap': recap}
                 return render(request, 'user/secretary/recap-list.html', context, status=200)
             context = {'user': user, 'recap': recap}
